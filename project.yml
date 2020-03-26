@@ -1,0 +1,58 @@
+name: PushNotificationTestApp
+
+options:
+  bundleIdPrefix: jp.yama07
+  deploymentTarget:
+    iOS: 13.2
+  xcodeVersion: 11.3.1
+
+targets:
+  PushNotificationTestApp:
+    type: application
+    platform: iOS
+    sources:
+      - PushNotificationTestApp
+    settings:
+      base:
+        INFOPLIST_FILE: PushNotificationTestApp/Info.plist
+        TARGETED_DEVICE_FAMILY: 1
+    config:
+      Debug:
+        DEBUG_MODE: YES
+      Release:
+        DEBUG_MODE: NO
+    preBuildScripts:
+      - name: Run SwiftFormat
+        script: mint run nicklockwood/SwiftFormat swiftformat $SRCROOT
+  PushNotificationTestAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - PushNotificationTestAppUITests
+    settings:
+      base:
+        INFOPLIST_FILE: PushNotificationTestAppUITests/Info.plist
+    dependencies:
+      - target: PushNotificationTestApp
+
+schemes:
+  PushNotificationTestApp:
+    build:
+      targets:
+        PushNotificationTestApp: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - PushNotificationTestApp
+      targets:
+        - name: PushNotificationTestAppUITests
+          randomExecutionOrder: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
