@@ -6,6 +6,9 @@ options:
     iOS: 13.2
   xcodeVersion: 11.3.1
 
+settings:
+  DEVELOPMENT_TEAM: 7K2VVCZ596
+
 targets:
   PushNotificationTestApp:
     type: application
@@ -16,11 +19,15 @@ targets:
       base:
         INFOPLIST_FILE: PushNotificationTestApp/Info.plist
         TARGETED_DEVICE_FAMILY: 1
-    config:
-      Debug:
-        DEBUG_MODE: YES
-      Release:
-        DEBUG_MODE: NO
+        CODE_SIGN_STYLE: Manual
+      configs:
+        Debug:
+          DEBUG_MODE: YES
+          CODE_SIGN_IDENTITY: iPhone Developer
+          PROVISIONING_PROFILE_SPECIFIER: match Development jp.yama07.PushNotificationTestApp
+        Release:
+          DEBUG_MODE: NO
+          CODE_SIGN_IDENTITY: iPhone Distribution
     preBuildScripts:
       - name: Run SwiftFormat
         script: mint run nicklockwood/SwiftFormat swiftformat $SRCROOT
